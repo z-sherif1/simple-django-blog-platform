@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% block title %}
+    Home
+{% endblock %}
+{% block content %}
+<div class="home-page">
+    <!-- Welcome Section -->
+    <section class="home-hero">
+        <div class="home-hero-content">
+            <span class="home-badge">
+                <i class="bi bi-stars"></i>
+                Welcome Back
+            </span>
+            <h1>
+                Hello, {{ user.username }}!
+            </h1>
+            <p>
+                Welcome to your Django Blog dashboard.
+                Explore posts, share your ideas, and manage your content.
+            </p>
+        </div>
+        <div class="home-hero-icon">
+            <i class="bi bi-journal-richtext"></i>
+        </div>
+    </section>
+    <!-- Quick Actions -->
+    <section class="home-section">
+        <div class="home-section-header">
+            <h2>
+                Quick Actions
+            </h2>
+            <p>
+                What would you like to do?
+            </p>
+        </div>
+        <div class="home-actions">
+            <!-- All Posts -->
+            <a href="{% url 'post_list' %}" class="home-action-card">
+                <div class="home-action-icon">
+                    <i class="bi bi-file-text"></i>
+                </div>
+                <div>
+                    <h3>
+                        Browse Posts
+                    </h3>
+                    <p>
+                        Explore posts from the community.
+                    </p>
+                </div>
+                <i class="bi bi-arrow-right home-action-arrow"></i>
+            </a>
+            <!-- Create Post -->
+            <a href="{% url 'post_create' %}" class="home-action-card">
+                <div class="home-action-icon">
+                    <i class="bi bi-plus-circle"></i>
+                </div>
+                <div>
+                    <h3>
+                        Create Post
+                    </h3>
+                    <p>
+                        Share your ideas with everyone.
+                    </p>
+                </div>
+                <i class="bi bi-arrow-right home-action-arrow"></i>
+            </a>
+            <!-- My Posts -->
+            <a href="{% url 'my_posts' %}" class="home-action-card">
+                <div class="home-action-icon">
+                    <i class="bi bi-person-lines-fill"></i>
+                </div>
+                <div>
+                    <h3>
+                        My Posts
+                    </h3>
+                    <p>
+                        Manage the posts you have created.
+                    </p>
+                </div>
+                <i class="bi bi-arrow-right home-action-arrow"></i>
+            </a>
+            <!-- Profile -->
+            <a href="{% url 'profile' %}" class="home-action-card">
+                <div class="home-action-icon">
+                    <i class="bi bi-person-circle"></i>
+                </div>
+                <div>
+                    <h3>
+                        My Profile
+                    </h3>
+                    <p>
+                        View and update your profile.
+                    </p>
+                </div>
+                <i class="bi bi-arrow-right home-action-arrow"></i>
+            </a>
+        </div>
+    </section>
+</div>
+{% endblock %}

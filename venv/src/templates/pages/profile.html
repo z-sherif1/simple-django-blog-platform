@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}
+    My Profile
+{% endblock %}
+{% block content %}
+<div class="profile-page">
+    <div class="profile-card">
+        <!-- Profile Header -->
+        <div class="profile-header">
+            <div class="profile-image-wrapper">
+                {% if object.profile_picture %}
+                    <img src="{{ object.profile_picture.url }}" alt="Profile Picture" class="profile-image">
+                {% else %}
+                    <div class="profile-placeholder">
+                        <i class="bi bi-person"></i>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="profile-info">
+                <h1>
+                    {{ object.user.username }}
+                </h1>
+                <p>
+                    <i class="bi bi-envelope"></i>
+                    {{ object.user.email }}
+                </p>
+                <span class="profile-badge">
+                    <i class="bi bi-person-check"></i>
+                    Member
+                </span>
+            </div>
+            <div class="profile-edit-button">
+                <a href="{% url 'profile_edit' %}" class="btn btn-primary">
+                    <i class="bi bi-pencil"></i>
+                    Edit Profile
+                </a>
+            </div>
+        </div>
+        <!-- Bio -->
+        <div class="profile-section">
+            <h2>
+                <i class="bi bi-person-lines-fill"></i>
+                About Me
+            </h2>
+            {% if object.bio %}
+                <p class="profile-bio">
+                    {{ object.bio|linebreaks }}
+                </p>
+            {% else %}
+                <p class="profile-empty">
+                    You haven't added a bio yet.
+                </p>
+            {% endif %}
+        </div>
+        <!-- Profile Actions -->
+        <div class="profile-actions">
+            <a href="{% url 'my_posts' %}" class="profile-action-card">
+                <i class="bi bi-file-text"></i>
+                <div>
+                    <strong>
+                        My Posts
+                    </strong>
+                    <span>
+                        Manage your posts
+                    </span>
+                </div>
+            </a>
+            <a href="{% url 'post_create' %}" class="profile-action-card">
+                <i class="bi bi-plus-circle"></i>
+                <div>
+                    <strong>
+                        Create Post
+                    </strong>
+                    <span>
+                        Share something new
+                    </span>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

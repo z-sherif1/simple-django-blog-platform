@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ category.name }} Posts
+{% endblock %}
+{% block content %}
+<div class="category-page">
+    <!-- ================= HEADER ================= -->
+    <section class="category-header">
+        <div class="category-header-icon">
+            <i class="bi bi-tag"></i>
+        </div>
+        <div>
+            <span>Category</span>
+            <h1>{{ category.name }}</h1>
+            <p>Explore all posts in this category.</p>
+        </div>
+    </section>
+    <!-- ================= POSTS ================= -->
+    {% if posts %}
+        <div class="posts-header">
+            <div>
+                <h2>Posts in {{ category.name }}</h2>
+                <p>Explore articles related to this topic.</p>
+            </div>
+            <span class="posts-count">{{ posts|length }} Posts</span>
+        </div>
+        <div class="row g-4">
+            {% for post in posts %}
+                <div class="col-md-6 col-lg-4">
+                    <article class="post-card">
+                        <!-- Category -->
+                        <a href="{% url 'category_posts' category.pk %}" class="category-badge">
+                            <i class="bi bi-tag"></i>
+                            {{ category.name }}
+                        </a>
+                        <!-- Title -->
+                        <h3 class="post-title">
+                            <a href="{% url 'post_detail' post.pk %}">
+                                {{ post.title }}
+                            </a>
+                        </h3>
+                        <!-- Content -->
+                        <p class="post-content">
+                            {{ post.content|truncatewords:25 }}
+                        </p>
+                        <!-- Meta -->
+                        <div class="post-meta">
+                            <div>
+                                <i class="bi bi-person-circle"></i>
+                                {{ post.author.username }}
+                            </div>
+                            <div>
+                                <i class="bi bi-calendar3"></i>
+                                {{ post.created_at|date:"M d, Y" }}
+                            </div>
+                        </div>
+                        <!-- Read More -->
+                        <a href="{% url 'post_detail' post.pk %}" class="read-more">
+                            Read More
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </article>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <!-- ================= EMPTY ================= -->
+        <div class="empty-state">
+            <div class="empty-icon">
+                <i class="bi bi-journal-x"></i>
+            </div>
+            <h3>No Posts in This Category</h3>
+            <p>
+                There are no posts available in "{{ category.name }}" yet.
+            </p>
+            <a href="{% url 'post_list' %}" class="btn btn-primary">
+                <i class="bi bi-arrow-left"></i>
+                Browse All Posts
+            </a>
+        </div>
+    {% endif %}
+    <!-- ================= BACK ================= -->
+    <div class="back-to-posts">
+        <a href="{% url 'post_list' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i>
+            Back to All Posts
+        </a>
+    </div>
+</div>
+{% endblock %}

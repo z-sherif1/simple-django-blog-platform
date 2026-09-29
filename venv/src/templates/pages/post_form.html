@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block title %}
+    {% if object %}
+        Edit Post
+    {% else %}
+        Create Post
+    {% endif %}
+{% endblock %}
+{% block content %}
+<div class="form-page">
+    <div class="form-card">
+        <!-- Header -->
+        <div class="form-header">
+            <div class="form-icon">
+                {% if object %}
+                    <i class="bi bi-pencil-square"></i>
+                {% else %}
+                    <i class="bi bi-plus-circle"></i>
+                {% endif %}
+            </div>
+            <div>
+                <h1>
+                    {% if object %}
+                        Edit Post
+                    {% else %}
+                        Create New Post
+                    {% endif %}
+                </h1>
+                <p>
+                    {% if object %}
+                        Update your post and save your changes.
+                    {% else %}
+                        Share your ideas with the community.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        <!-- Form -->
+        <form method="POST">
+            {% csrf_token %}
+            <!-- Form Errors -->
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            <!-- Title -->
+            <div class="form-group">
+                <label for="{{ form.title.id_for_label }}">
+                    Title
+                </label>
+                {{ form.title }}
+                {% if form.title.errors %}
+                    <div class="text-danger form-error">
+                        {{ form.title.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            <!-- Category -->
+            <div class="form-group">
+                <label for="{{ form.category.id_for_label }}">
+                    Category
+                </label>
+                {{ form.category }}
+                {% if form.category.errors %}
+                    <div class="text-danger form-error">
+                        {{ form.category.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            <!-- Content -->
+            <div class="form-group">
+                <label for="{{ form.content.id_for_label }}">
+                    Content
+                </label>
+                {{ form.content }}
+                {% if form.content.errors %}
+                    <div class="text-danger form-error">
+                        {{ form.content.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            <!-- Buttons -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    {% if object %}
+                        <i class="bi bi-check-circle"></i>
+                        Save Changes
+                    {% else %}
+                        <i class="bi bi-plus-circle"></i>
+                        Publish Post
+                    {% endif %}
+                </button>
+                {% if object %}
+                    <a href="{% url 'post_detail' object.pk %}" class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                {% else %}
+                    <a href="{% url 'post_list' %}" class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

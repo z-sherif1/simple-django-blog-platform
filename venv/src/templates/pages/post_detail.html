@@ -1,0 +1,139 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{ object.title }}
+{% endblock %}
+{% block content %}
+<div class="post-detail-page">
+    <!-- ================= POST ================= -->
+    <article class="post-detail-card">
+        <!-- Category -->
+        {% if object.category %}
+            <a href="{% url 'category_posts' object.category.pk %}" class="category-badge">
+                <i class="bi bi-tag"></i>
+                {{ object.category.name }}
+            </a>
+        {% endif %}
+        <!-- Title -->
+        <h1 class="detail-title">
+            {{ object.title }}
+        </h1>
+        <!-- Meta -->
+        <div class="detail-meta">
+            <span>
+                <i class="bi bi-person-circle"></i>
+                {{ object.author.username }}
+            </span>
+            <span>
+                <i class="bi bi-calendar3"></i>
+                {{ object.created_at|date:"M d, Y" }}
+            </span>
+            {% if object.updated_at != object.created_at %}
+                <span>
+                    <i class="bi bi-pencil"></i>
+                    Updated {{ object.updated_at|date:"M d, Y" }}
+                </span>
+            {% endif %}
+        </div>
+        <hr>
+        <!-- Content -->
+        <div class="detail-content">
+            {{ object.content|linebreaks }}
+        </div>
+        <!-- Post Actions -->
+        {% if request.user == object.author %}
+            <div class="post-actions">
+                <a href="{% url 'post_edit' object.pk %}" class="btn btn-primary">
+                    <i class="bi bi-pencil"></i>
+                    Edit Post
+                </a>
+                <a href="{% url 'post_delete' object.pk %}" class="btn btn-outline-danger">
+                    <i class="bi bi-trash"></i>
+                    Delete Post
+                </a>
+            </div>
+        {% endif %}
+    </article>
+    <!-- ================= COMMENTS ================= -->
+    <section class="comments-section">
+        <div class="comments-header">
+            <h2>
+                <i class="bi bi-chat-left-text"></i>
+                Comments
+            </h2>
+            <span>
+                {{ object.comments.count }}
+            </span>
+        </div>
+        <!-- Add Comment -->
+        {% if request.user.is_authenticated %}
+            <div class="add-comment-box">
+                <a href="{% url 'add_comment' object.pk %}" class="btn btn-primary">
+                    <i class="bi bi-chat-dots"></i>
+                    Add Comment
+                </a>
+            </div>
+        {% else %}
+            <div class="login-comment-box">
+                <p>
+                    You must be logged in to add a comment.
+                </p>
+                <a href="{% url 'login' %}" class="btn btn-outline-primary">
+                    Login to Comment
+                </a>
+            </div>
+        {% endif %}
+        <!-- Comments List -->
+        <div class="comments-list">
+            {% for comment in object.comments.all %}
+                <div class="comment-card">
+                    <div class="comment-header">
+                        <div class="comment-user">
+                            <div class="comment-avatar">
+                                <i class="bi bi-person"></i>
+                            </div>
+                            <strong>
+                                {{ comment.user.username }}
+                            </strong>
+                        </div>
+                        <small>
+                            {{ comment.created_at|date:"M d, Y H:i" }}
+                        </small>
+                    </div>
+                    <p class="comment-content">
+                        {{ comment.content }}
+                    </p>
+                    {% if comment.user == request.user %}
+                        <div class="comment-actions">
+                            <a href="{% url 'edit_comment' comment.pk %}" class="btn btn-sm btn-outline-primary">
+                                <i class="bi bi-pencil"></i>
+                                Edit
+                            </a>
+                            <a href="{% url 'delete_comment' comment.pk %}" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash"></i>
+                                Delete
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            {% empty %}
+                <div class="no-comments">
+                    <i class="bi bi-chat-square"></i>
+                    <h4>
+                        No Comments Yet
+                    </h4>
+                    <p>
+                        Be the first person to share your thoughts.
+                    </p>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+    <!-- ================= BACK ================= -->
+    <div class="back-to-posts">
+        <a href="{% url 'post_list' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i>
+            Back to Posts
+        </a>
+    </div>
+</div>
+{% endblock %}

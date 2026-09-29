@@ -1,0 +1,29 @@
+# Ignore virtual environment
+venv/*
+
+# But track the Django project inside venv/src
+!venv/src/
+!venv/src/**
+
+# Python
+__pycache__/
+*.py[cod]
+
+# Django
+venv/src/db.sqlite3
+venv/src/media/
+venv/src/staticfiles/
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# User uploaded files
+venv/src/profiles/

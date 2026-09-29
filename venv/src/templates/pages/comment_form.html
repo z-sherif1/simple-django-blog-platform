@@ -1,0 +1,81 @@
+{% extends 'base.html' %}
+{% block title %}
+    {% if object %}
+        Edit Comment
+    {% else %}
+        Add Comment
+    {% endif %}
+{% endblock %}
+{% block content %}
+<div class="form-page">
+    <div class="form-card">
+        <!-- Header -->
+        <div class="form-header">
+            <div class="form-icon">
+                {% if object %}
+                    <i class="bi bi-pencil-square"></i>
+                {% else %}
+                    <i class="bi bi-chat-dots"></i>
+                {% endif %}
+            </div>
+            <div>
+                <h1>
+                    {% if object %}
+                        Edit Comment
+                    {% else %}
+                        Add Comment
+                    {% endif %}
+                </h1>
+                <p>
+                    {% if object %}
+                        Update your comment and save your changes.
+                    {% else %}
+                        Share your thoughts about this post.
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+        <!-- Form -->
+        <form method="POST">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+                <div class="alert alert-danger">
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+            <div class="form-group">
+                <label for="{{ form.content.id_for_label }}">
+                    Your Comment
+                </label>
+                {{ form.content }}
+                {% if form.content.errors %}
+                    <div class="text-danger form-error">
+                        {{ form.content.errors }}
+                    </div>
+                {% endif %}
+            </div>
+            <!-- Actions -->
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">
+                    {% if object %}
+                        <i class="bi bi-check-circle"></i>
+                        Save Changes
+                    {% else %}
+                        <i class="bi bi-chat-dots"></i>
+                        Add Comment
+                    {% endif %}
+                </button>
+                {% if post %}
+                    <a href="{% url 'post_detail' post.pk %}" class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                {% else %}
+                    <a href="{% url 'post_detail' object.post.pk %}" class="btn btn-outline-secondary">
+                        Cancel
+                    </a>
+                {% endif %}
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
