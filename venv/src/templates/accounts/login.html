@@ -1,17 +1,26 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login</title>
-</head>
-<body>
-    <h1>Login</h1>
-    <form method='POST'>
-        {% csrf_token %}
-        {{form.as_p}}
-        <button type='submit'>Login</button>
-    </form>
-
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}
+    Login
+{% endblock %}
+{% block content %}
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-head">
+            <div class="form-icon">
+                <i class="bi bi-box-arrow-in-right"></i>
+            </div>
+            <h1>Login</h1>
+            <p>Welcome back! Please sign in to continue.</p>
+        </div>
+        <form method='POST'>
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type='submit' class="btn btn-primary">Login</button>
+        </form>
+        <p class="auth-switch">
+            Don't have an account?
+            <a href="{% url 'register' %}">Register</a>
+        </p>
+    </div>
+</div>
+{% endblock %}

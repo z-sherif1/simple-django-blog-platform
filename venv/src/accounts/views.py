@@ -63,8 +63,6 @@ class PostCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
         form.instance.author = self.request.user  #auther howa el loggedin user
         messages.success(self.request,'Post created successfully! ')
         return super().form_valid( form)
-    def test_func(self):
-        return self.request.user.has_perm('accounts/add_post')
 
 class PostListView(ListView):
     model = Post
@@ -107,7 +105,7 @@ class PostUpdateView(LoginRequiredMixin,UserPassesTestMixin,UpdateView):
     def test_func(self):
         post = self.get_object()  #get the user
         return (
-            post.author == self.request.user and self.request.user.has_perm('accounts.change_post')
+            post.author == self.request.user
             ) #if True allow to edit
     def form_valid(self, form):
         messages.success(self.request, 'Post updated successfully!')
@@ -126,7 +124,7 @@ class DeletePostView(LoginRequiredMixin,UserPassesTestMixin,DeleteView):
         return super().delete(request, *args, **kwargs)
     def test_func(self):
         post = self.get_object()
-        return (post.author == self.request.user and self.request.user.has_perm('accounts.delete_post'))
+        return (post.author == self.request.user)
 
 @login_required
 def add_comment(request,pk):
