@@ -53,7 +53,7 @@ class ProfileUpdateView(LoginRequiredMixin,UpdateView):
     def get_object(self):
         return self.request.user.profile
 
-class PostCreateView(LoginRequiredMixin,UserPassesTestMixin,CreateView):
+class PostCreateView(LoginRequiredMixin,CreateView):
     model = Post
     form_class = PostForm
     template_name = 'pages/post_form.html'
